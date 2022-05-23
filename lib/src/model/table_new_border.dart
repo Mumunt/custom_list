@@ -17,6 +17,8 @@ class TableNewBorder {
   final double left;
   final double right;
   final double bottom;
+  final double verticalInside;
+  final double horizontalInside;
   final Color color;
 
   TableNewBorder({
@@ -24,6 +26,8 @@ class TableNewBorder {
     this.left = 1,
     this.right = 1,
     this.bottom = 1,
+    this.verticalInside = 1,
+    this.horizontalInside = 1,
     // this.color = const Color.fromRGBO(0, 0, 0, 0),
     this.color = Colors.black,
   });
@@ -36,6 +40,6 @@ class TableNewBorder {
         top: vertical,
         bottom: vertical,
         left: horizontal,
-        right: vertical,
+        right: horizontal,
       );
 }

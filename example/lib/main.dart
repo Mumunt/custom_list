@@ -52,21 +52,33 @@ class _MyAppState extends State<MyApp> {
         ),
         body: Padding(
           padding: const EdgeInsets.all(50),
-          child: TableNew(
-            columsWidth: {
-              0: 5,
-            },
-            border: TableNewBorder(),
-            headers: List.generate(
-              5,
-              (index) => TableNewHeader(
-                content: Text("Header $index"),
+          child: SingleChildScrollView(
+            child: TableNew(
+              columsWidth: {
+                0: FlexColumnWidth(1),
+              },
+              border: TableNewBorder(),
+              headers: List.generate(
+                5,
+                (index) => TableNewHeader(
+                  content: Text("Header $index"),
+                ),
               ),
-            ),
-            bodies: List.generate(
-              10000,
-              (index) => TableNewBodies(
-                content: List.generate(5, (index) => Text("Body $index")),
+              bodies: List.generate(
+                100,
+                (index) => TableNewBodies(
+                  content: List<Widget>.generate(5, (index) => Text("Body $index")),
+                  children: <TableNewBodies>[
+                    TableNewBodies(
+                      content: <Widget>[Text("Children 1")],
+                        children: <TableNewBodies>[
+                          TableNewBodies(
+                            content: <Widget>[Text("Children 1-1")],
+                          ),
+                        ]
+                    ),
+                  ]
+                ),
               ),
             ),
           ),

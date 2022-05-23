@@ -1,3 +1,4 @@
+import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:table_new/src/model/table_new_bodies.dart';
 import 'package:table_new/src/model/table_new_border.dart';
@@ -14,7 +15,7 @@ class TableNew extends StatefulWidget {
 
   final List<TableNewHeader> headers;
   final List<TableNewBodies> bodies;
-  final Map<int, int>? columsWidth;
+  final Map<int, TableColumnWidth>? columsWidth;
   final TableNewBorder? border;
 
   @override
@@ -46,99 +47,65 @@ class _TableNewState extends State<TableNew> {
 
   @override
   Widget build(BuildContext context) {
+    TableNewBorder? border = widget.border;
+
     return Container(
       width: double.infinity,
       child: Column(
         children: [
-          Row(
-            children: widget.headers
-                .asMap()
-                .map((key, value) {
-                  TableNewBorder? border = widget.border;
-
-                  if (border != null) {
-                    if (key == 0) {
-                      border.position = BorderPosition.firstLeft;
-                    } else if (key == widget.headers.length - 1) {
-                      border.position = BorderPosition.firstRight;
-                    } else {
-                      border.position = BorderPosition.firstCenter;
-                    }
-                  }
-
-                  return MapEntry(
-                    key,
-                    Expanded(
-                      flex: widget.columsWidth?[key] ?? 1,
-                      child: Container(
-                        decoration: BoxDecoration(
-                            border: border != null
-                                ? border.position == BorderPosition.firstLeft
-                                    ? Border(
-                                        left: BorderSide(
-                                            color: border.color,
-                                            width: border.left),
-                                        top: BorderSide(
-                                            color: border.color,
-                                            width: border.top),
-                                        right: BorderSide(
-                                            color: border.color,
-                                            width: border.right / 2),
-                                        bottom: BorderSide(
-                                            color: border.color,
-                                            width: widget.bodies.isNotEmpty
-                                                ? border.bottom / 2
-                                                : border.bottom),
-                                      )
-                                    : border.position ==
-                                            BorderPosition.firstCenter
-                                        ? Border(
-                                            left: BorderSide(
-                                                color: border.color,
-                                                width: border.left / 2),
-                                            top: BorderSide(
-                                                color: border.color,
-                                                width: border.top),
-                                            right: BorderSide(
-                                                color: border.color,
-                                                width: border.right / 2),
-                                            bottom: BorderSide(
-                                                color: border.color,
-                                                width: widget.bodies.isNotEmpty
-                                                    ? border.bottom / 2
-                                                    : border.bottom),
-                                          )
-                                        : border.position ==
-                                                BorderPosition.firstRight
-                                            ? Border(
-                                                left: BorderSide(
-                                                    color: border.color,
-                                                    width: border.left / 2),
-                                                top: BorderSide(
-                                                    color: border.color,
-                                                    width: border.top),
-                                                right: BorderSide(
-                                                    color: border.color,
-                                                    width: border.right),
-                                                bottom: BorderSide(
-                                                    color: border.color,
-                                                    width:
-                                                        widget.bodies.isNotEmpty
-                                                            ? border.bottom / 2
-                                                            : border.bottom),
-                                              )
-                                            : null
-                                : null),
-                        alignment: Alignment.center,
-                        child: value.content,
+          Container(
+            decoration: BoxDecoration(
+                border: border != null
+                    ? Border(
+                        left:
+                            BorderSide(color: border.color, width: border.left),
+                        top: BorderSide(color: border.color, width: border.top),
+                        right: BorderSide(
+                            color: border.color, width: border.right),
+                        bottom: BorderSide(
+                            color: border.color,
+                            width: widget.bodies.isNotEmpty
+                                ? border.bottom / 2
+                                : border.bottom))
+                    : null),
+            child: Row(
+              children: widget.headers
+                  .asMap()
+                  .map((key, value) {
+                    return MapEntry(
+                      key,
+                      Expanded(
+                        // flex: widget.columsWidth?[key] ?? 1,
+                        flex: null ?? 1,
+                        child: Stack(
+                          children: [
+                            Container(
+                              alignment: Alignment.center,
+                              child: value.content,
+                            ),
+                            if (key != widget.headers.length - 1)
+                              const Positioned(
+                                top: 0,
+                                right: 0,
+                                bottom: 0,
+                                child: IntrinsicHeight(
+                                  child: VerticalDivider(
+                                    color: Colors.red,
+                                    width: 0.5,
+                                    thickness: 2,
+                                  ),
+                                ),
+                              )
+                          ],
+                        ),
                       ),
-                    ),
-                  );
-                })
-                .values
-                .toList(),
+                    );
+                  })
+                  .values
+                  .toList(),
+            ),
           ),
-          if (widget.bodies.isNotEmpty) Expanded(child: _initBody()),
+          if (widget.bodies.isNotEmpty) _initBody(),
         ],
       ),
     );
@@ -148,124 +115,159 @@ class _TableNewState extends State<TableNew> {
     return ListView.builder(
       shrinkWrap: true,
       controller: controller,
+      physics: const NeverScrollableScrollPhysics(),
       itemBuilder: (context, index) {
         TableNewBodies body = widget.bodies[index];
-        return SizedBox(
-          height: 80,
-          child: Row(
-            children: body.content
-                .asMap()
-                .map((key, value) {
-                  TableNewBorder? border = widget.border;
+        TableNewBorder? border = widget.border;
 
-                  if (border != null) {
-                    if (key == 0) {
-                      border.position = BorderPosition.firstLeft;
-                    } else if (key == widget.headers.length - 1) {
-                      border.position = BorderPosition.firstRight;
-                    } else {
-                      border.position = BorderPosition.firstCenter;
-                    }
-                  }
-
-                  return MapEntry(
-                    key,
-                    Expanded(
-                      flex: widget.columsWidth?[key] ?? 1,
-                      child: Container(
-                        decoration: BoxDecoration(
-                            border: border != null
-                                ? border.position == BorderPosition.firstLeft
-                                    ? Border(
-                                        left: BorderSide(
-                                            color: border.color,
-                                            width: border.left),
-                                        top: BorderSide(
-                                            color: border.color,
-                                            width: border.top > 0
-                                                ? border.top / 2
-                                                : 0),
-                                        right: BorderSide(
-                                            color: border.color,
-                                            width: border.right > 0
-                                                ? border.right / 2
-                                                : 0),
-                                        bottom: BorderSide(
-                                            color: border.color,
-                                            width:
-                                                index != widget.bodies.length - 1
-                                                    ? border.bottom > 0
-                                                        ? border.bottom / 2
-                                                        : 0
-                                                    : border.bottom),
-                                      )
-                                    : border.position ==
-                                            BorderPosition.firstCenter
-                                        ? Border(
-                                            left: BorderSide(
-                                                color: border.color,
-                                                width: border.left > 0
-                                                    ? border.left / 2
-                                                    : 0),
-                                            top: BorderSide(
-                                                color: border.color,
-                                                width: border.top > 0
-                                                    ? border.top / 2
-                                                    : 0),
-                                            right: BorderSide(
-                                                color: border.color,
-                                                width: border.right > 0
-                                                    ? border.right / 2
-                                                    : 0),
-                                            bottom: BorderSide(
-                                                color: border.color,
-                                                width: index !=
-                                                        widget.bodies.length - 1
-                                                    ? border.bottom > 0
-                                                        ? border.bottom / 2
-                                                        : 0
-                                                    : border.bottom),
-                                          )
-                                        : border.position ==
-                                                BorderPosition.firstRight
-                                            ? Border(
-                                                left: BorderSide(
-                                                    color: border.color,
-                                                    width: border.left > 0
-                                                        ? border.left / 2
-                                                        : 0),
-                                                top: BorderSide(
-                                                    color: border.color,
-                                                    width: border.top > 0
-                                                        ? border.top / 2
-                                                        : 0),
-                                                right: BorderSide(
-                                                    color: border.color,
-                                                    width: border.right / 2),
-                                                bottom: BorderSide(
-                                                    color: border.color,
-                                                    width: index !=
-                                                            widget.bodies.length -
-                                                                1
-                                                        ? border.bottom > 0
-                                                            ? border.bottom / 2
-                                                            : 0
-                                                        : border.bottom),
-                                              )
-                                            : null
-                                : null),
-                        alignment: Alignment.center,
-                        child: value,
-                      ),
-                    ),
-                  );
-                })
-                .values
-                .toList(),
-          ),
+        if (border != null) {
+          if (index == 0) {
+            border.position = BorderPosition.firstLeft;
+          } else if (index == widget.headers.length - 1) {
+            border.position = BorderPosition.firstRight;
+          } else {
+            border.position = BorderPosition.firstCenter;
+          }
+        }
+        return Container(
+          decoration: BoxDecoration(
+              border: border != null
+                  ? border.position == BorderPosition.firstLeft
+                      ? Border(
+                          left: BorderSide(
+                              color: border.color, width: border.left),
+                          top: BorderSide(
+                              color: border.color,
+                              width: border.top > 0 ? border.top / 2 : 0),
+                          right: BorderSide(
+                              color: border.color, width: border.right),
+                          bottom: BorderSide(
+                              color: border.color,
+                              width: index != widget.bodies.length - 1
+                                  ? border.bottom > 0
+                                      ? border.bottom / 2
+                                      : 0
+                                  : border.bottom),
+                        )
+                      : border.position == BorderPosition.firstCenter
+                          ? Border(
+                              left: BorderSide(
+                                  color: border.color, width: border.left),
+                              top: BorderSide(
+                                  color: border.color,
+                                  width: border.top > 0 ? border.top / 2 : 0),
+                              right: BorderSide(
+                                  color: border.color, width: border.right),
+                              bottom: BorderSide(
+                                  color: border.color,
+                                  width: index != widget.bodies.length - 1
+                                      ? border.bottom > 0
+                                          ? border.bottom / 2
+                                          : 0
+                                      : border.bottom),
+                            )
+                          : border.position == BorderPosition.firstRight
+                              ? Border(
+                                  left: BorderSide(
+                                    color: border.color,
+                                    width: border.left,
+                                  ),
+                                  top: BorderSide(
+                                      color: border.color,
+                                      width:
+                                          border.top > 0 ? border.top / 2 : 0),
+                                  right: BorderSide(
+                                    color: border.color,
+                                    width: border.right,
+                                  ),
+                                  bottom: BorderSide(
+                                      color: border.color,
+                                      width: index != widget.bodies.length - 1
+                                          ? border.bottom > 0
+                                              ? border.bottom / 2
+                                              : 0
+                                          : border.bottom),
+                                )
+                              : null
+                  : null),
+          child: _itemRowsData(body),
         );
       },
       itemCount: widget.bodies.length,
     );
   }
+
+  Widget _itemRowsData(TableNewBodies body) {
+    return body.children != null && body.children!.length > 0 ? ExpandableNotifier(
+      child: Expandable(
+        collapsed: ExpandableButton(
+          child: Table(
+            columnWidths: widget.columsWidth,
+            border: widget.border != null
+                ? TableBorder(
+              verticalInside: BorderSide(
+                width: widget.border!.verticalInside,
+                color: widget.border!.color,
+              ),
+            )
+                : null,
+            children: [
+              TableRow(
+                  children: body.content
+                      .map((value) => Container(
+                    alignment: Alignment.center,
+                    child: value,
+                  ))
+                      .toList())
+            ],
+          ),
+        ),
+        expanded: ExpandableButton(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Table(
+                  columnWidths: widget.columsWidth,
+                  border: TableBorder(
+                      verticalInside: BorderSide(), bottom: BorderSide()),
+                  children: [
+                    TableRow(
+                        children: body.content
+                            .map((value) => Container(
+                          alignment: Alignment.center,
+                          child: value,
+                        ))
+                            .toList())
+                  ],
+                ),
+                for(var data in body.children!)
+                  _itemRowsData(data),
+              ],
+            )),
+      ),
+    ) : Table(
+      columnWidths: widget.columsWidth,
+      border: widget.border != null
+          ? TableBorder(
+        verticalInside: BorderSide(
+          width: widget.border!.verticalInside,
+          color: widget.border!.color,
+        ),
+      )
+          : null,
+      children: [
+        TableRow(
+            children: body.content
+                .map((value) => Container(
+              alignment: Alignment.center,
+              child: value,
+            ))
+                .toList())
+      ],
+    );
+  }
+
+  // Widget _itemExpandDataRow(TableNewBodies body) {
+  //   return ;
+  // }
 }
