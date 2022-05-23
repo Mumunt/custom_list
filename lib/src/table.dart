@@ -29,19 +29,19 @@ class _TableNewState extends State<TableNew> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    // controller.addListener(() {
-    //   if (controller.position.atEdge) {
-    //     bool isTop = controller.position.pixels == 0;
-    //     if (isTop) {
-    //       print('At the top');
-    //     } else {
-    //       print('At the bottom');
-    //       setState(() {
-    //         page++;
-    //       });
-    //     }
-    //   }
-    // });
+    controller.addListener(() {
+      if (controller.position.atEdge) {
+        bool isTop = controller.position.pixels == 0;
+        if (isTop) {
+          print('At the top');
+        } else {
+          print('At the bottom');
+          setState(() {
+            page++;
+          });
+        }
+      }
+    });
   }
 
   @override
