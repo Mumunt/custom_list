@@ -1,5 +1,8 @@
+import 'dart:html';
+
 import 'package:flutter/material.dart';
 import 'package:table_new/table_new.dart';
+import 'package:table_new_example/model/data_model.dart';
 
 void main() {
   runApp(const MyApp());
@@ -57,27 +60,53 @@ class _MyAppState extends State<MyApp> {
               columsWidth: {
                 0: FlexColumnWidth(1),
               },
+              // border: TableNewBorder(color: Colors.blue,bottom: 2, top: 2),
               border: TableNewBorder(),
-              headers: List.generate(
-                5,
-                (index) => TableNewHeader(
-                  content: Text("Header $index"),
+              headers: [
+                TableNewHeader(
+                  content: const Text("Name"),
                 ),
-              ),
+                TableNewHeader(
+                  content: const Text("Email"),
+                ),
+                TableNewHeader(
+                  content: const Text("Phone"),
+                ),
+                TableNewHeader(
+                  content: const Text("Region"),
+                ),
+                TableNewHeader(
+                  content: const Text("Country"),
+                )
+              ],
+
               bodies: List.generate(
-                100,
+                dummyData.length,
                 (index) => TableNewBodies(
-                  content: List<Widget>.generate(5, (index) => Text("Body $index")),
-                  children: <TableNewBodies>[
-                    TableNewBodies(
-                      content: <Widget>[Text("Children 1")],
-                        children: <TableNewBodies>[
-                          TableNewBodies(
-                            content: <Widget>[Text("Children 1-1")],
-                          ),
-                        ]
+                  // content: List<Widget>.generate(5, (index) => Text("Body $index")),
+                  content: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(dummyData[index].name),
                     ),
-                  ]
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(dummyData[index].email),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(dummyData[index].phone),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(dummyData[index].region),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(dummyData[index].country),
+                    )
+                  ],
+                  children: dummyData[index].child != null ? recursive(dummyData[index].child!)  : null,
                 ),
               ),
             ),
@@ -85,5 +114,22 @@ class _MyAppState extends State<MyApp> {
         ),
       ),
     );
+  }
+
+  List<TableNewBodies> recursive(List<DataModel> data) {
+    print(data.first.toJson());
+    return <TableNewBodies>[
+      for(var value in data)
+    TableNewBodies(
+        content: <Widget>[
+          Text(value.name),
+          Text(value.email),
+          Text(value.phone),
+          Text(value.region),
+          Text(value.country)
+        ],
+        children: value.child != null ? recursive(value.child!)  : null,
+    ),
+    ];
   }
 }

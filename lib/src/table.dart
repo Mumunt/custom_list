@@ -53,57 +53,149 @@ class _TableNewState extends State<TableNew> {
       width: double.infinity,
       child: Column(
         children: [
-          Container(
-            decoration: BoxDecoration(
-                border: border != null
-                    ? Border(
-                        left:
-                            BorderSide(color: border.color, width: border.left),
-                        top: BorderSide(color: border.color, width: border.top),
-                        right: BorderSide(
-                            color: border.color, width: border.right),
-                        bottom: BorderSide(
-                            color: border.color,
-                            width: widget.bodies.isNotEmpty
-                                ? border.bottom / 2
-                                : border.bottom))
-                    : null),
-            child: Row(
-              children: widget.headers
-                  .asMap()
-                  .map((key, value) {
-                    return MapEntry(
-                      key,
-                      Expanded(
-                        // flex: widget.columsWidth?[key] ?? 1,
-                        flex: null ?? 1,
-                        child: Stack(
-                          children: [
-                            Container(
-                              alignment: Alignment.center,
-                              child: value.content,
-                            ),
-                            if (key != widget.headers.length - 1)
-                              const Positioned(
-                                top: 0,
-                                right: 0,
-                                bottom: 0,
-                                child: IntrinsicHeight(
-                                  child: VerticalDivider(
-                                    color: Colors.red,
-                                    width: 0.5,
-                                    thickness: 2,
-                                  ),
-                                ),
-                              )
-                          ],
-                        ),
-                      ),
-                    );
-                  })
-                  .values
-                  .toList(),
-            ),
+          // Container(
+          //   decoration: BoxDecoration(
+          //       border: border != null
+          //           ? Border(
+          //               left:
+          //                   BorderSide(color: border.color, width: border.left),
+          //               top: BorderSide(color: border.color, width: border.top),
+          //               right: BorderSide(
+          //                   color: border.color, width: border.right),
+          //               bottom: BorderSide(
+          //                   color: border.color,
+          //                   width: widget.bodies.isNotEmpty
+          //                       ? border.bottom / 2
+          //                       : border.bottom))
+          //           : null),
+          //   child: Row(
+          //     children: widget.headers
+          //         .asMap()
+          //         .map((key, value) {
+          //           return MapEntry(
+          //             key,
+          //             Expanded(
+          //               // flex: widget.columsWidth?[key] ?? 1,
+          //               flex: null ?? 1,
+          //               child: Stack(
+          //                 children: [
+          //                   Container(
+          //                     alignment: Alignment.center,
+          //                     child: value.content,
+          //                   ),
+          //                   if (key != widget.headers.length - 1)
+          //                     const Positioned(
+          //                       top: 0,
+          //                       right: 0,
+          //                       bottom: 0,
+          //                       child: IntrinsicHeight(
+          //                         child: VerticalDivider(
+          //                           color: Colors.red,
+          //                           width: 0.5,
+          //                           thickness: 2,
+          //                         ),
+          //                       ),
+          //                     )
+          //                 ],
+          //               ),
+          //             ),
+          //           );
+          //         })
+          //         .values
+          //         .toList(),
+          //   ),
+          // ),
+          // decoration: BoxDecoration(
+          //     border: border != null
+          //         ? border.position == BorderPosition.firstLeft
+          //         ? Border(
+          //       left: BorderSide(
+          //           color: border.color, width: border.left),
+          //       top: BorderSide(
+          //           color: border.color,
+          //           width: border.top > 0 ? border.top / 2 : 0),
+          //       right: BorderSide(
+          //           color: border.color, width: border.right),
+          //       bottom: BorderSide(
+          //           color: border.color,
+          //           width: index != widget.bodies.length - 1
+          //               ? border.bottom > 0
+          //               ? border.bottom / 2
+          //               : 0
+          //               : border.bottom),
+          //     )
+          //         : border.position == BorderPosition.firstCenter
+          //         ? Border(
+          //       left: BorderSide(
+          //           color: border.color, width: border.left),
+          //       top: BorderSide(
+          //           color: border.color,
+          //           width: border.top > 0 ? border.top / 2 : 0),
+          //       right: BorderSide(
+          //           color: border.color, width: border.right),
+          //       bottom: BorderSide(
+          //           color: border.color,
+          //           width: index != widget.bodies.length - 1
+          //               ? border.bottom > 0
+          //               ? border.bottom / 2
+          //               : 0
+          //               : border.bottom),
+          //     )
+          //         : border.position == BorderPosition.firstRight
+          //         ? Border(
+          //       left: BorderSide(
+          //         color: border.color,
+          //         width: border.left,
+          //       ),
+          //       top: BorderSide(
+          //           color: border.color,
+          //           width:
+          //           border.top > 0 ? border.top / 2 : 0),
+          //       right: BorderSide(
+          //         color: border.color,
+          //         width: border.right,
+          //       ),
+          //       bottom: BorderSide(
+          //           color: border.color,
+          //           width: index != widget.bodies.length - 1
+          //               ? border.bottom > 0
+          //               ? border.bottom / 2
+          //               : 0
+          //               : border.bottom),
+          //     )
+          //         : null
+          //         : null),
+          Table(
+            columnWidths: widget.columsWidth,
+            border: widget.border != null
+                ? TableBorder(
+              verticalInside: BorderSide(
+                width: widget.border!.verticalInside,
+                color: widget.border!.color,
+              ),
+              left: BorderSide(
+                  color: border!.color, width: border.left),
+              top: BorderSide(
+                  color: border.color,
+                  width: border.top),
+              right: BorderSide(
+                  color: border.color, width: border.right),
+              bottom: BorderSide(
+                  color: border.color,
+                  width: border.bottom > 0
+                      ? border.bottom / 2
+                      : 0),
+            )
+                : null,
+            children: [
+              TableRow(
+                  children: widget.headers
+                      .map((value) => Container(
+                    alignment: Alignment.center,
+                    child: value.content,
+                  ))
+                      .toList())
+            ],
           ),
           if (widget.bodies.isNotEmpty) _initBody(),
         ],
@@ -120,19 +212,9 @@ class _TableNewState extends State<TableNew> {
         TableNewBodies body = widget.bodies[index];
         TableNewBorder? border = widget.border;
 
-        if (border != null) {
-          if (index == 0) {
-            border.position = BorderPosition.firstLeft;
-          } else if (index == widget.headers.length - 1) {
-            border.position = BorderPosition.firstRight;
-          } else {
-            border.position = BorderPosition.firstCenter;
-          }
-        }
         return Container(
           decoration: BoxDecoration(
               border: border != null
-                  ? border.position == BorderPosition.firstLeft
                       ? Border(
                           left: BorderSide(
                               color: border.color, width: border.left),
@@ -149,55 +231,15 @@ class _TableNewState extends State<TableNew> {
                                       : 0
                                   : border.bottom),
                         )
-                      : border.position == BorderPosition.firstCenter
-                          ? Border(
-                              left: BorderSide(
-                                  color: border.color, width: border.left),
-                              top: BorderSide(
-                                  color: border.color,
-                                  width: border.top > 0 ? border.top / 2 : 0),
-                              right: BorderSide(
-                                  color: border.color, width: border.right),
-                              bottom: BorderSide(
-                                  color: border.color,
-                                  width: index != widget.bodies.length - 1
-                                      ? border.bottom > 0
-                                          ? border.bottom / 2
-                                          : 0
-                                      : border.bottom),
-                            )
-                          : border.position == BorderPosition.firstRight
-                              ? Border(
-                                  left: BorderSide(
-                                    color: border.color,
-                                    width: border.left,
-                                  ),
-                                  top: BorderSide(
-                                      color: border.color,
-                                      width:
-                                          border.top > 0 ? border.top / 2 : 0),
-                                  right: BorderSide(
-                                    color: border.color,
-                                    width: border.right,
-                                  ),
-                                  bottom: BorderSide(
-                                      color: border.color,
-                                      width: index != widget.bodies.length - 1
-                                          ? border.bottom > 0
-                                              ? border.bottom / 2
-                                              : 0
-                                          : border.bottom),
-                                )
-                              : null
                   : null),
-          child: _itemRowsData(body),
+          child: _itemRowsData(body,index !=  widget.bodies.length-1),
         );
       },
       itemCount: widget.bodies.length,
     );
   }
 
-  Widget _itemRowsData(TableNewBodies body) {
+  Widget _itemRowsData(TableNewBodies body, bool isLast) {
     return body.children != null && body.children!.length > 0 ? ExpandableNotifier(
       child: Expandable(
         collapsed: ExpandableButton(
@@ -209,6 +251,8 @@ class _TableNewState extends State<TableNew> {
                 width: widget.border!.verticalInside,
                 color: widget.border!.color,
               ),
+              // bottom: body.children != null &&  !isLast ? BorderSide.none : BorderSide()
+
             )
                 : null,
             children: [
@@ -229,7 +273,9 @@ class _TableNewState extends State<TableNew> {
                 Table(
                   columnWidths: widget.columsWidth,
                   border: TableBorder(
-                      verticalInside: BorderSide(), bottom: BorderSide()),
+                      verticalInside: BorderSide(),
+                      bottom: BorderSide(),
+                  ),
                   children: [
                     TableRow(
                         children: body.content
@@ -240,8 +286,9 @@ class _TableNewState extends State<TableNew> {
                             .toList())
                   ],
                 ),
-                for(var data in body.children!)
-                  _itemRowsData(data),
+                if(body.children != null)
+                for(var i = 0; i < body.children!.length; i++)
+                  _itemRowsData(body.children![i], i != body.children!.length-1),
               ],
             )),
       ),
