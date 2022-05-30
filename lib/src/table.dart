@@ -1,8 +1,18 @@
 import 'package:expandable/expandable.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:table_new/src/model/table_new_bodies.dart';
 import 'package:table_new/src/model/table_new_border.dart';
 import 'package:table_new/src/model/table_new_header.dart';
+
+
+enum TableStyle {
+  defaultStyle,
+  firstStyle,
+  secondStyle,
+  thirdStyle,
+}
+
 
 class TableNew extends StatefulWidget {
   const TableNew({
@@ -11,12 +21,16 @@ class TableNew extends StatefulWidget {
     required this.bodies,
     this.columsWidth,
     this.border,
+    this.tableStyle = TableStyle.defaultStyle,
   }) : super(key: key);
 
   final List<TableNewHeader> headers;
   final List<TableNewBodies> bodies;
   final Map<int, TableColumnWidth>? columsWidth;
   final TableNewBorder? border;
+
+  ///Add aditional table style
+  final TableStyle tableStyle;
 
   @override
   State<TableNew> createState() => _TableNewState();
@@ -30,176 +44,71 @@ class _TableNewState extends State<TableNew> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    controller.addListener(() {
-      if (controller.position.atEdge) {
-        bool isTop = controller.position.pixels == 0;
-        if (isTop) {
-          print('At the top');
-        } else {
-          print('At the bottom');
-          setState(() {
-            page++;
-          });
-        }
-      }
-    });
+    // controller.addListener(() {
+    //   //# Pagination
+    //   if (controller.position.atEdge) {
+    //     bool isTop = controller.position.pixels == 0;
+    //     if (isTop) {
+    //       print('At the top');
+    //     } else {
+    //       print('At the bottom');
+    //       setState(() {
+    //         page++;
+    //       });
+    //     }
+    //   }
+    // });
+
   }
+
+
 
   @override
   Widget build(BuildContext context) {
     TableNewBorder? border = widget.border;
 
-    return Container(
-      width: double.infinity,
-      child: Column(
-        children: [
-          // Container(
-          //   decoration: BoxDecoration(
-          //       border: border != null
-          //           ? Border(
-          //               left:
-          //                   BorderSide(color: border.color, width: border.left),
-          //               top: BorderSide(color: border.color, width: border.top),
-          //               right: BorderSide(
-          //                   color: border.color, width: border.right),
-          //               bottom: BorderSide(
-          //                   color: border.color,
-          //                   width: widget.bodies.isNotEmpty
-          //                       ? border.bottom / 2
-          //                       : border.bottom))
-          //           : null),
-          //   child: Row(
-          //     children: widget.headers
-          //         .asMap()
-          //         .map((key, value) {
-          //           return MapEntry(
-          //             key,
-          //             Expanded(
-          //               // flex: widget.columsWidth?[key] ?? 1,
-          //               flex: null ?? 1,
-          //               child: Stack(
-          //                 children: [
-          //                   Container(
-          //                     alignment: Alignment.center,
-          //                     child: value.content,
-          //                   ),
-          //                   if (key != widget.headers.length - 1)
-          //                     const Positioned(
-          //                       top: 0,
-          //                       right: 0,
-          //                       bottom: 0,
-          //                       child: IntrinsicHeight(
-          //                         child: VerticalDivider(
-          //                           color: Colors.red,
-          //                           width: 0.5,
-          //                           thickness: 2,
-          //                         ),
-          //                       ),
-          //                     )
-          //                 ],
-          //               ),
-          //             ),
-          //           );
-          //         })
-          //         .values
-          //         .toList(),
-          //   ),
-          // ),
-          // decoration: BoxDecoration(
-          //     border: border != null
-          //         ? border.position == BorderPosition.firstLeft
-          //         ? Border(
-          //       left: BorderSide(
-          //           color: border.color, width: border.left),
-          //       top: BorderSide(
-          //           color: border.color,
-          //           width: border.top > 0 ? border.top / 2 : 0),
-          //       right: BorderSide(
-          //           color: border.color, width: border.right),
-          //       bottom: BorderSide(
-          //           color: border.color,
-          //           width: index != widget.bodies.length - 1
-          //               ? border.bottom > 0
-          //               ? border.bottom / 2
-          //               : 0
-          //               : border.bottom),
-          //     )
-          //         : border.position == BorderPosition.firstCenter
-          //         ? Border(
-          //       left: BorderSide(
-          //           color: border.color, width: border.left),
-          //       top: BorderSide(
-          //           color: border.color,
-          //           width: border.top > 0 ? border.top / 2 : 0),
-          //       right: BorderSide(
-          //           color: border.color, width: border.right),
-          //       bottom: BorderSide(
-          //           color: border.color,
-          //           width: index != widget.bodies.length - 1
-          //               ? border.bottom > 0
-          //               ? border.bottom / 2
-          //               : 0
-          //               : border.bottom),
-          //     )
-          //         : border.position == BorderPosition.firstRight
-          //         ? Border(
-          //       left: BorderSide(
-          //         color: border.color,
-          //         width: border.left,
-          //       ),
-          //       top: BorderSide(
-          //           color: border.color,
-          //           width:
-          //           border.top > 0 ? border.top / 2 : 0),
-          //       right: BorderSide(
-          //         color: border.color,
-          //         width: border.right,
-          //       ),
-          //       bottom: BorderSide(
-          //           color: border.color,
-          //           width: index != widget.bodies.length - 1
-          //               ? border.bottom > 0
-          //               ? border.bottom / 2
-          //               : 0
-          //               : border.bottom),
-          //     )
-          //         : null
-          //         : null),
-          Table(
-            columnWidths: widget.columsWidth,
-            border: widget.border != null
-                ? TableBorder(
-              verticalInside: BorderSide(
-                width: widget.border!.verticalInside,
-                color: widget.border!.color,
+    return ListView(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      children: [
+        Table(
+          columnWidths: widget.columsWidth,
+          border: widget.border != null
+              ? TableBorder(
+            verticalInside: BorderSide(
+              width: widget.border!.verticalInside,
+              color: widget.border!.color,
+            ),
+            left: BorderSide(
+                color: border!.color, width: border.left),
+            top: BorderSide(
+                color: border.color,
+                width: border.top),
+            right: BorderSide(
+                color: border.color, width: border.right),
+            bottom: BorderSide(
+                color: border.color,
+                width: border.bottom > 0
+                    ? border.bottom / 2
+                    : 0),
+          )
+              : null,
+          children: [
+            TableRow(
+              decoration: BoxDecoration(
+                color: widget.tableStyle == TableStyle.defaultStyle
+                    ? const Color.fromRGBO(55, 82, 226, 1) : null
               ),
-              left: BorderSide(
-                  color: border!.color, width: border.left),
-              top: BorderSide(
-                  color: border.color,
-                  width: border.top),
-              right: BorderSide(
-                  color: border.color, width: border.right),
-              bottom: BorderSide(
-                  color: border.color,
-                  width: border.bottom > 0
-                      ? border.bottom / 2
-                      : 0),
-            )
-                : null,
-            children: [
-              TableRow(
-                  children: widget.headers
-                      .map((value) => Container(
-                    alignment: Alignment.center,
-                    child: value.content,
-                  ))
-                      .toList())
-            ],
-          ),
-          if (widget.bodies.isNotEmpty) _initBody(),
-        ],
-      ),
+                children: widget.headers
+                    .map((value) => Container(
+                  alignment: Alignment.center,
+                  child: value.content,
+                ))
+                    .toList())
+          ],
+        ),
+        if (widget.bodies.isNotEmpty) _initBody(),
+      ],
     );
   }
 
@@ -215,23 +124,25 @@ class _TableNewState extends State<TableNew> {
         return Container(
           decoration: BoxDecoration(
               border: border != null
-                      ? Border(
-                          left: BorderSide(
-                              color: border.color, width: border.left),
-                          top: BorderSide(
-                              color: border.color,
-                              width: border.top > 0 ? border.top / 2 : 0),
-                          right: BorderSide(
-                              color: border.color, width: border.right),
-                          bottom: BorderSide(
-                              color: border.color,
-                              width: index != widget.bodies.length - 1
-                                  ? border.bottom > 0
-                                      ? border.bottom / 2
-                                      : 0
-                                  : border.bottom),
-                        )
+                  ? Border(
+                left: BorderSide(
+                    color: border.color, width: border.left),
+                top: BorderSide(
+                    color: border.color,
+                    width: border.top > 0 ? border.top / 2 : 0),
+                right: BorderSide(
+                    color: border.color, width: border.right),
+                bottom: BorderSide(
+                    color: border.color,
+                    width: index != widget.bodies.length - 1
+                        ? border.bottom > 0
+                        ? border.bottom / 2
+                        : 0
+                        : border.bottom),
+              )
                   : null),
+          //padding For Border Space body
+          // padding: EdgeInsets.symmetric(vertical: 10),
           child: _itemRowsData(body,index !=  widget.bodies.length-1),
         );
       },
@@ -272,7 +183,7 @@ class _TableNewState extends State<TableNew> {
               children: [
                 Table(
                   columnWidths: widget.columsWidth,
-                  border: TableBorder(
+                  border: const TableBorder(
                       verticalInside: BorderSide(),
                       bottom: BorderSide(),
                   ),

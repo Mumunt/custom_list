@@ -1,5 +1,3 @@
-import 'dart:html';
-
 import 'package:flutter/material.dart';
 import 'package:table_new/table_new.dart';
 import 'package:table_new_example/model/data_model.dart';
@@ -17,11 +15,29 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   // String _platformVersion = 'Unknown';
+  ScrollController controller = ScrollController();
+  int page = 1;
 
   @override
   void initState() {
     super.initState();
     // initPlatformState();
+    // controller.addListener(() {
+    //   //# Pagination
+    //   if (controller.position.atEdge) {
+    //     bool isTop = controller.position.pixels == 0;
+    //     if (isTop) {
+    //       print('At the top');
+    //     } else {
+    //       print('At the bottom');
+    //       setState(() {
+    //         if(dummyData.length > page * 20){
+    //           page++;
+    //         }
+    //       });
+    //     }
+    //   }
+    // });
   }
 
   // Platform messages are asynchronous, so we initialize in an async method.
@@ -56,31 +72,48 @@ class _MyAppState extends State<MyApp> {
         body: Padding(
           padding: const EdgeInsets.all(50),
           child: SingleChildScrollView(
+            // controller: controller,
             child: TableNew(
-              columsWidth: {
+              columsWidth: const {
                 0: FlexColumnWidth(1),
               },
               // border: TableNewBorder(color: Colors.blue,bottom: 2, top: 2),
               border: TableNewBorder(),
               headers: [
                 TableNewHeader(
-                  content: const Text("Name"),
+                  content:  const Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: SelectableText("Name",style: TextStyle(color: Colors.white),),
+                  ),
                 ),
                 TableNewHeader(
-                  content: const Text("Email"),
+                  content: const Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: SelectableText("Email",style: TextStyle(color: Colors.white),),
+                  ),
                 ),
                 TableNewHeader(
-                  content: const Text("Phone"),
+                  content: const Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: SelectableText("Phone",style: TextStyle(color: Colors.white),),
+                  ),
                 ),
                 TableNewHeader(
-                  content: const Text("Region"),
+                  content: const Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: SelectableText("Region",style: TextStyle(color: Colors.white),),
+                  ),
                 ),
                 TableNewHeader(
-                  content: const Text("Country"),
+                  content: const Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: SelectableText("Country",style: TextStyle(color: Colors.white),),
+                  ),
                 )
               ],
 
               bodies: List.generate(
+                // dummyData.length <= page * 20 ? dummyData.length : page * 20,
                 dummyData.length,
                 (index) => TableNewBodies(
                   // content: List<Widget>.generate(5, (index) => Text("Body $index")),
@@ -106,7 +139,9 @@ class _MyAppState extends State<MyApp> {
                       child: Text(dummyData[index].country),
                     )
                   ],
-                  children: dummyData[index].child != null ? recursive(dummyData[index].child!)  : null,
+                  children: dummyData[index].child != null
+                      ? recursive(dummyData[index].child!)
+                      : null,
                 ),
               ),
             ),
@@ -116,20 +151,34 @@ class _MyAppState extends State<MyApp> {
     );
   }
 
-  List<TableNewBodies> recursive(List<DataModel> data) {
-    print(data.first.toJson());
+  List<TableNewBodies> recursive(List<DataModel> data,) {
     return <TableNewBodies>[
-      for(var value in data)
-    TableNewBodies(
-        content: <Widget>[
-          Text(value.name),
-          Text(value.email),
-          Text(value.phone),
-          Text(value.region),
-          Text(value.country)
-        ],
-        children: value.child != null ? recursive(value.child!)  : null,
-    ),
+      for (var value in data)
+        TableNewBodies(
+          content: <Widget>[
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0,horizontal: 14),
+              child: Text(value.name),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0,horizontal: 14),
+              child: Text(value.email),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0,horizontal: 14),
+              child: Text(value.phone),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0,horizontal: 14),
+              child: Text(value.region),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0,horizontal: 14),
+              child: Text(value.country),
+            )
+          ],
+          children: value.child != null ? recursive(value.child!) : null,
+        ),
     ];
   }
 }
