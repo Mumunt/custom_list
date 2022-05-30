@@ -77,8 +77,9 @@ class _MyAppState extends State<MyApp> {
               columsWidth: const {
                 0: FlexColumnWidth(1),
               },
+              tableStyle: TableStyle.firstStyle,
               // border: TableNewBorder(color: Colors.blue,bottom: 2, top: 2),
-              border: TableNewBorder(),
+              border: TableNewBorder(color: Color.fromRGBO(243, 246, 248, 1),verticalInside: 2),
               headers: [
                 TableNewHeader(
                   content:  const Padding(
@@ -119,23 +120,23 @@ class _MyAppState extends State<MyApp> {
                   // content: List<Widget>.generate(5, (index) => Text("Body $index")),
                   content: <Widget>[
                     Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0,vertical: 16),
                       child: Text(dummyData[index].name),
                     ),
                     Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0,vertical: 16),
                       child: Text(dummyData[index].email),
                     ),
                     Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0,vertical: 16),
                       child: Text(dummyData[index].phone),
                     ),
                     Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0,vertical: 16),
                       child: Text(dummyData[index].region),
                     ),
                     Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0,vertical: 16),
                       child: Text(dummyData[index].country),
                     )
                   ],
@@ -157,23 +158,23 @@ class _MyAppState extends State<MyApp> {
         TableNewBodies(
           content: <Widget>[
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8.0,horizontal: 14),
+              padding: const EdgeInsets.symmetric(vertical: 16,horizontal: 14),
               child: Text(value.name),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8.0,horizontal: 14),
+              padding: const EdgeInsets.symmetric(vertical: 16,horizontal: 14),
               child: Text(value.email),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8.0,horizontal: 14),
+              padding: const EdgeInsets.symmetric(vertical: 16,horizontal: 14),
               child: Text(value.phone),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8.0,horizontal: 14),
+              padding: const EdgeInsets.symmetric(vertical: 16,horizontal: 14),
               child: Text(value.region),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8.0,horizontal: 14),
+              padding: const EdgeInsets.symmetric(vertical: 16,horizontal: 14),
               child: Text(value.country),
             )
           ],

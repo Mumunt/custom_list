@@ -22,7 +22,7 @@ class DataModel {
 }
 
 List<DataModel> dummyData = List.generate(
-    100,
+    20,
     (i) => i % 3 == 0
         ? DataModel("Header $i", "in.faucibu$i@mail.com",
         "02177835$i", "Dalarnas län", "Russian Federation", null)
@@ -42,18 +42,18 @@ List<DataModel> dummyData2 = List.generate(
     (index) => index % 2 == 0
         ? DataModel(
             "child 1.$index",
-            "faucibus$index@mail.com",
+            "child1.$index@mail.com",
             "02178788$index",
             "Distrito Capital",
             "Zealand",
-            [DataModel("child 2.$index", "email", "phone", "region", "country", dummyData3)])
+            [DataModel("child 2.$index", "child2.$index@mail.com", "phone", "region", "country", dummyData3)])
         : DataModel(
             "child 1.$index",
-            "alexander$index@mail.com",
+            "child1.$index@mail.com",
             "02178788$index",
             "Distrito ",
             "New",
-            [DataModel("child 2.$index", "email", "phone", "region", "country", null)]));
+            [DataModel("child 2.$index", "child2.$index@mail.com", "phone", "region", "country", null)]));
 
 
 List<DataModel> dummyData3 = List.generate(
@@ -61,36 +61,36 @@ List<DataModel> dummyData3 = List.generate(
         (index) => index % 2 == 0
         ? DataModel(
         "child 3.$index",
-        "faucibus$index@mail.com",
+        "child3.$index@mail.com",
         "02178788$index",
         "Distrito Capital",
         "Zealand",
-        [DataModel("child 4.$index", "email", "phone", "region", "country", dummyData4)])
+        [DataModel("child 4.$index", "child4.$index@mail.com", "phone", "region", "country", dummyData4)])
         : DataModel(
         "child 3.$index",
-        "alexander$index@mail.com",
+        "child3.$index@mail.com",
         "02178788$index",
         "Distrito ",
         "New",
-        [DataModel("child 4.$index", "email", "phone", "region", "country", null)]));
+        [DataModel("child 4.$index", "child4.$index@mail.com", "phone", "region", "country", null)]));
 
 List<DataModel> dummyData4 = List.generate(
     5,
         (index) => index % 2 == 0
         ? DataModel(
         "child  5.$index",
-        "faucibus$index@mail.com",
+        "child5.$index@mail.com",
         "02178788$index",
         "Distrito Capital",
         "Zealand",
-        [DataModel("child 6.$index", "email", "phone", "region", "country", null)])
+        [DataModel("child 6.$index", "child6.$index@mail.com", "phone", "region", "country", null)])
         : DataModel(
         "child 5.$index",
-        "alexander$index@mail.com",
+        "child5.$index@mail.com",
         "02178788$index",
         "Distrito ",
         "New",
-        [DataModel("child 6.$index", "email", "phone", "region", "country", null)]));
+        [DataModel("child 6.$index", "child6.$index@mail.com", "phone", "region", "country", null)]));
 
 List<DataModel> dummyData5 = List.generate(
     5,

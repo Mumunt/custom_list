@@ -71,41 +71,64 @@ class _TableNewState extends State<TableNew> {
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       children: [
-        Table(
-          columnWidths: widget.columsWidth,
-          border: widget.border != null
-              ? TableBorder(
-            verticalInside: BorderSide(
-              width: widget.border!.verticalInside,
-              color: widget.border!.color,
-            ),
-            left: BorderSide(
-                color: border!.color, width: border.left),
-            top: BorderSide(
-                color: border.color,
-                width: border.top),
-            right: BorderSide(
-                color: border.color, width: border.right),
-            bottom: BorderSide(
-                color: border.color,
-                width: border.bottom > 0
-                    ? border.bottom / 2
-                    : 0),
-          )
-              : null,
-          children: [
-            TableRow(
-              decoration: BoxDecoration(
-                color: widget.tableStyle == TableStyle.defaultStyle
-                    ? const Color.fromRGBO(55, 82, 226, 1) : null
+        Container(
+          padding: widget.tableStyle == TableStyle.firstStyle ?  EdgeInsets.symmetric(vertical: 9) : null,
+          decoration: BoxDecoration(
+              border: border != null
+                  ? widget.tableStyle == TableStyle.firstStyle ?  null : Border(
+                left: BorderSide(
+                    color: border.color, width: border.left),
+                top: BorderSide(
+                    color: border.color,
+                    width: border.top),
+                right: BorderSide(
+                    color: border.color, width: border.right),
+                bottom: BorderSide(
+                    color: border.color,
+                    width: border.bottom > 0
+                        ? border.bottom / 2
+                        : 0),
+              )
+                  : null,
+                color: widget.tableStyle == TableStyle.firstStyle ? const Color.fromRGBO(55, 82, 226, 1) : null,
+                borderRadius: widget.tableStyle == TableStyle.firstStyle ? BorderRadius.all(Radius.circular(4)) : null,),
+          child: Table(
+            columnWidths: widget.columsWidth,
+            border: widget.border != null
+                ? TableBorder(
+              verticalInside: BorderSide(
+                width: widget.border!.verticalInside,
+                color: widget.tableStyle == TableStyle.firstStyle ?  Color.fromRGBO(50, 70, 181, 1): widget.border!.color,
               ),
-                children: widget.headers
-                    .map((value) => Container(
-                  alignment: Alignment.center,
-                  child: value.content,
-                ))
-                    .toList())
-          ],
+              // left: BorderSide(
+              //     color: border!.color, width: border.left),
+              // top: BorderSide(
+              //     color: border.color,
+              //     width: border.top),
+              // right: BorderSide(
+              //     color: border.color, width: border.right),
+              // bottom: BorderSide(
+              //     color: border.color,
+              //     width: border.bottom > 0
+              //         ? border.bottom / 2
+              //         : 0),
+            )
+                : null,
+            children: [
+              TableRow(
+                // decoration: BoxDecoration(
+                //   color: widget.tableStyle == TableStyle.firstStyle
+                //       ? const Color.fromRGBO(55, 82, 226, 1) : null
+                // ),
+                  children: widget.headers
+                      .map((value) => Container(
+
+                    alignment: Alignment.center,
+                    child: value.content,
+                  ))
+                      .toList())
+            ],
+          ),
         ),
         if (widget.bodies.isNotEmpty) _initBody(),
       ],
@@ -121,10 +144,16 @@ class _TableNewState extends State<TableNew> {
         TableNewBodies body = widget.bodies[index];
         TableNewBorder? border = widget.border;
 
+        //List Row
         return Container(
+          margin: widget.tableStyle == TableStyle.firstStyle ? EdgeInsets.only(top: 12) : null,
+          // TODO : Table Border Container
           decoration: BoxDecoration(
               border: border != null
-                  ? Border(
+                  ? widget.tableStyle == TableStyle.firstStyle ?  Border.all(
+                width: 1,
+                color: border.color
+              ) : Border(
                 left: BorderSide(
                     color: border.color, width: border.left),
                 top: BorderSide(
@@ -138,9 +167,12 @@ class _TableNewState extends State<TableNew> {
                         ? border.bottom > 0
                         ? border.bottom / 2
                         : 0
-                        : border.bottom),
+                        : border.bottom,),
               )
-                  : null),
+                  : null,
+          borderRadius: widget.tableStyle == TableStyle.firstStyle ? BorderRadius.all(Radius.circular(4)) : null,
+          ),
+          
           //padding For Border Space body
           // padding: EdgeInsets.symmetric(vertical: 10),
           child: _itemRowsData(body,index !=  widget.bodies.length-1),
@@ -160,13 +192,17 @@ class _TableNewState extends State<TableNew> {
                 ? TableBorder(
               verticalInside: BorderSide(
                 width: widget.border!.verticalInside,
-                color: widget.border!.color,
+                color: widget.tableStyle == TableStyle.firstStyle ? Colors.white : widget.border!.color,
               ),
-              // bottom: body.children != null &&  !isLast ? BorderSide.none : BorderSide()
+              bottom: body.children != null &&  !isLast ? BorderSide.none : BorderSide(
+                color: widget.tableStyle == TableStyle.firstStyle ? Colors.white : widget.border!.color,
+                width: 2
+              )
 
             )
                 : null,
             children: [
+              // Row List Item Content
               TableRow(
                   children: body.content
                       .map((value) => Container(
@@ -183,9 +219,12 @@ class _TableNewState extends State<TableNew> {
               children: [
                 Table(
                   columnWidths: widget.columsWidth,
-                  border: const TableBorder(
-                      verticalInside: BorderSide(),
-                      bottom: BorderSide(),
+                  border: TableBorder(
+                      verticalInside: BorderSide(
+                        color: widget.tableStyle == TableStyle.firstStyle ? Colors.white : widget.border!.color,
+                        width: widget.border!.verticalInside,
+                      ),
+                      // bottom: BorderSide(),
                   ),
                   children: [
                     TableRow(
@@ -199,7 +238,12 @@ class _TableNewState extends State<TableNew> {
                 ),
                 if(body.children != null)
                 for(var i = 0; i < body.children!.length; i++)
-                  _itemRowsData(body.children![i], i != body.children!.length-1),
+                  Container(
+                    decoration: BoxDecoration(
+                      color: widget.tableStyle == TableStyle.firstStyle ? Color.fromRGBO(248, 250, 254, 1) : Colors.white,
+                    ),
+                      child: _itemRowsData(body.children![i], i != body.children!.length-1)
+                  ),
               ],
             )),
       ),
