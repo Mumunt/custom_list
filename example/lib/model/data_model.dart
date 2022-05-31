@@ -24,14 +24,14 @@ class DataModel {
 List<DataModel> dummyData = List.generate(
     20,
     (i) => i % 3 == 0
-        ? DataModel("Header $i", "in.faucibu$i@mail.com",
+        ? DataModel("Header $i", "Header$i@mail.com",
         "02177835$i", "Dalarnas län", "Russian Federation", null)
     : i % 2 == 0
-        ? DataModel("Header $i", "irma.alexander$i@mail.com",
+        ? DataModel("Header $i", "Header$i@mail.com",
             "02178788$i", "Distrito Capital", "New Zealand", dummyData2)
         : DataModel(
             "Header $i",
-            "orci.Weber$i@mail.com",
+            "Header$i@mail.com",
             "02177835$i",
             "Paraíba",
             "Turkey",

@@ -151,7 +151,7 @@ class _TableNewState extends State<TableNew> {
           decoration: BoxDecoration(
               border: border != null
                   ? widget.tableStyle == TableStyle.firstStyle ?  Border.all(
-                width: 1,
+                width: 2,
                 color: border.color
               ) : Border(
                 left: BorderSide(
@@ -170,7 +170,7 @@ class _TableNewState extends State<TableNew> {
                         : border.bottom,),
               )
                   : null,
-          borderRadius: widget.tableStyle == TableStyle.firstStyle ? BorderRadius.all(Radius.circular(4)) : null,
+          // borderRadius: widget.tableStyle == TableStyle.firstStyle ? BorderRadius.all(Radius.circular(4)) : null,
           ),
           
           //padding For Border Space body
@@ -185,67 +185,99 @@ class _TableNewState extends State<TableNew> {
   Widget _itemRowsData(TableNewBodies body, bool isLast) {
     return body.children != null && body.children!.length > 0 ? ExpandableNotifier(
       child: Expandable(
-        collapsed: ExpandableButton(
-          child: Table(
-            columnWidths: widget.columsWidth,
-            border: widget.border != null
-                ? TableBorder(
-              verticalInside: BorderSide(
-                width: widget.border!.verticalInside,
-                color: widget.tableStyle == TableStyle.firstStyle ? Colors.white : widget.border!.color,
-              ),
-              bottom: body.children != null &&  !isLast ? BorderSide.none : BorderSide(
-                color: widget.tableStyle == TableStyle.firstStyle ? Colors.white : widget.border!.color,
-                width: 2
-              )
+        // collapsed: ExpandableButton(
+        //   child: Table(
+        //     columnWidths: widget.columsWidth,
+        //     border: widget.border != null
+        //         ? TableBorder(
+        //       verticalInside: BorderSide(
+        //         width: widget.border!.verticalInside,
+        //         color: widget.tableStyle == TableStyle.firstStyle ? Colors.white : widget.border!.color,
+        //       ),
+        //       bottom: body.children != null &&  !isLast ? BorderSide.none : BorderSide(
+        //         color: widget.tableStyle == TableStyle.firstStyle ? Colors.white : widget.border!.color,
+        //         width: 2
+        //       )
+        //
+        //     )
+        //         : null,
+        //     children: [
+        //       // Row List Item Content
+        //       TableRow(
+        //           children: body.content.call(ExpandableButton())
+        //               .map((value) => Container(
+        //             alignment: Alignment.center,
+        //             child: value,
+        //           ))
+        //               .toList()),
+        //     ],
+        //   ),
+        // ),
+        collapsed: Table(
+          columnWidths: widget.columsWidth,
+          border: widget.border != null
+              ? TableBorder(
+            verticalInside: BorderSide(
+              width: widget.border!.verticalInside,
+              color: widget.border!.color,
+            ),
+            // bottom: BorderSide(
+            //   width: 2,
+            //   color: widget.border!.color,
+            // ),
+            // bottom: body.children != null  ? BorderSide() : BorderSide(
+            //   color:  widget.border!.color,
+            //   width: 2
+            // )
 
-            )
-                : null,
+          )
+              : null,
+          children: [
+            // Row List Item Content
+            TableRow(
+                decoration: body.decoration,
+                children: body.content
+                    .map((value) => Container(
+                  alignment: Alignment.center,
+                  child: value,
+                ))
+                    .toList()),
+          ],
+        ),
+        expanded: Container(
+          decoration: body.decoration,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Row List Item Content
-              TableRow(
-                  children: body.content
-                      .map((value) => Container(
-                    alignment: Alignment.center,
-                    child: value,
-                  ))
-                      .toList())
+              Table(
+                columnWidths: widget.columsWidth,
+                border: TableBorder(
+                    verticalInside: BorderSide(
+                      color: widget.border!.color,
+                      width: widget.border!.verticalInside,
+                    ),
+                  //   // bottom: BorderSide(),
+                  // bottom: BorderSide(
+                  //   width: 2,
+                  //   color: widget.border!.color,
+                  // ),
+                ),
+                children: [
+                  TableRow(
+                      children: body.content
+                          .map((value) => Container(
+                        alignment: Alignment.center,
+                        child: value,
+                      ))
+                          .toList()),
+                ],
+              ),
+              if(body.children != null)
+              for(var i = 0; i < body.children!.length; i++)
+                _itemRowsData(body.children![i], i != body.children!.length-1),
             ],
           ),
         ),
-        expanded: ExpandableButton(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Table(
-                  columnWidths: widget.columsWidth,
-                  border: TableBorder(
-                      verticalInside: BorderSide(
-                        color: widget.tableStyle == TableStyle.firstStyle ? Colors.white : widget.border!.color,
-                        width: widget.border!.verticalInside,
-                      ),
-                      // bottom: BorderSide(),
-                  ),
-                  children: [
-                    TableRow(
-                        children: body.content
-                            .map((value) => Container(
-                          alignment: Alignment.center,
-                          child: value,
-                        ))
-                            .toList())
-                  ],
-                ),
-                if(body.children != null)
-                for(var i = 0; i < body.children!.length; i++)
-                  Container(
-                    decoration: BoxDecoration(
-                      color: widget.tableStyle == TableStyle.firstStyle ? Color.fromRGBO(248, 250, 254, 1) : Colors.white,
-                    ),
-                      child: _itemRowsData(body.children![i], i != body.children!.length-1)
-                  ),
-              ],
-            )),
       ),
     ) : Table(
       columnWidths: widget.columsWidth,
@@ -255,10 +287,12 @@ class _TableNewState extends State<TableNew> {
           width: widget.border!.verticalInside,
           color: widget.border!.color,
         ),
+
       )
           : null,
       children: [
         TableRow(
+            decoration: body.decoration,
             children: body.content
                 .map((value) => Container(
               alignment: Alignment.center,

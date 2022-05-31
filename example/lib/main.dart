@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:table_new/table_new.dart';
 import 'package:table_new_example/model/data_model.dart';
+import 'package:expandable/expandable.dart';
 
 void main() {
   runApp(const MyApp());
@@ -79,36 +80,54 @@ class _MyAppState extends State<MyApp> {
               },
               tableStyle: TableStyle.firstStyle,
               // border: TableNewBorder(color: Colors.blue,bottom: 2, top: 2),
-              border: TableNewBorder(color: Color.fromRGBO(243, 246, 248, 1),verticalInside: 2),
+              border: TableNewBorder(
+                  // color: Color.fromRGBO(235, 241, 254, 1), verticalInside: 2
+                  color: Colors.black, verticalInside: 2
+              ),
               headers: [
                 TableNewHeader(
-                  content:  const Padding(
+                  content: const Padding(
                     padding: EdgeInsets.all(8.0),
-                    child: SelectableText("Name",style: TextStyle(color: Colors.white),),
+                    child: SelectableText(
+                      "Name",
+                      style: TextStyle(color: Colors.white),
+                    ),
                   ),
                 ),
                 TableNewHeader(
                   content: const Padding(
                     padding: EdgeInsets.all(8.0),
-                    child: SelectableText("Email",style: TextStyle(color: Colors.white),),
+                    child: SelectableText(
+                      "Email",
+                      style: TextStyle(color: Colors.white),
+                    ),
                   ),
                 ),
                 TableNewHeader(
                   content: const Padding(
                     padding: EdgeInsets.all(8.0),
-                    child: SelectableText("Phone",style: TextStyle(color: Colors.white),),
+                    child: SelectableText(
+                      "Phone",
+                      style: TextStyle(color: Colors.white),
+                    ),
                   ),
                 ),
                 TableNewHeader(
                   content: const Padding(
                     padding: EdgeInsets.all(8.0),
-                    child: SelectableText("Region",style: TextStyle(color: Colors.white),),
+                    child: SelectableText(
+                      "Region",
+                      style: TextStyle(color: Colors.white),
+                    ),
                   ),
                 ),
                 TableNewHeader(
                   content: const Padding(
                     padding: EdgeInsets.all(8.0),
-                    child: SelectableText("Country",style: TextStyle(color: Colors.white),),
+                    child: SelectableText(
+                      "Country",
+                      style: TextStyle(color: Colors.white),
+                    ),
                   ),
                 )
               ],
@@ -117,26 +136,43 @@ class _MyAppState extends State<MyApp> {
                 // dummyData.length <= page * 20 ? dummyData.length : page * 20,
                 dummyData.length,
                 (index) => TableNewBodies(
+                  decoration: BoxDecoration(
+                    color: Colors.red,
+                    borderRadius: BorderRadius.circular(4)),
+
                   // content: List<Widget>.generate(5, (index) => Text("Body $index")),
                   content: <Widget>[
+                    dummyData[index].child != null
+                        ? ExpandableButton(
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 8.0, vertical: 16),
+                              child: Text(dummyData[index].name),
+                            ),
+                          )
+                        : Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 8.0, vertical: 16),
+                            child: Text(dummyData[index].name),
+                          ),
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8.0,vertical: 16),
-                      child: Text(dummyData[index].name),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8.0,vertical: 16),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 8.0, vertical: 16),
                       child: Text(dummyData[index].email),
                     ),
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8.0,vertical: 16),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 8.0, vertical: 16),
                       child: Text(dummyData[index].phone),
                     ),
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8.0,vertical: 16),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 8.0, vertical: 16),
                       child: Text(dummyData[index].region),
                     ),
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8.0,vertical: 16),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 8.0, vertical: 16),
                       child: Text(dummyData[index].country),
                     )
                   ],
@@ -152,33 +188,47 @@ class _MyAppState extends State<MyApp> {
     );
   }
 
-  List<TableNewBodies> recursive(List<DataModel> data,) {
+  List<TableNewBodies> recursive(
+    List<DataModel> data,
+  ) {
     return <TableNewBodies>[
-      for (var value in data)
+      for (var i = 0 ; i < data.length; i++)
         TableNewBodies(
+          decoration: BoxDecoration(
+            color: Colors.lightBlueAccent,
+            borderRadius:  data.length-1 == i ? BorderRadius.only(bottomRight: Radius.circular(4)) : null
+          ),
           content: <Widget>[
+            data[i].child != null
+                ? ExpandableButton(
+                    child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 8.0, vertical: 16),
+                    child: Text(data[i].name),
+                  ))
+                : Padding(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 16, horizontal: 14),
+                    child: Text(data[i].name),
+                  ),
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 16,horizontal: 14),
-              child: Text(value.name),
+              padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 14),
+              child: Text(data[i].email),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 16,horizontal: 14),
-              child: Text(value.email),
+              padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 14),
+              child: Text(data[i].phone),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 16,horizontal: 14),
-              child: Text(value.phone),
+              padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 14),
+              child: Text(data[i].region),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 16,horizontal: 14),
-              child: Text(value.region),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 16,horizontal: 14),
-              child: Text(value.country),
+              padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 14),
+              child: Text(data[i].country),
             )
           ],
-          children: value.child != null ? recursive(value.child!) : null,
+          children: data[i].child != null ? recursive(data[i].child!) : null,
         ),
     ];
   }
