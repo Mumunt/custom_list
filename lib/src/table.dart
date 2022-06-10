@@ -168,8 +168,10 @@ class _TableNewState extends State<TableNew> {
                         ? border.bottom / 2
                         : 0
                         : border.bottom,),
+
               )
                   : null,
+            borderRadius: widget.tableStyle == TableStyle.firstStyle ? BorderRadius.all(Radius.circular(4)) : null,
           // borderRadius: widget.tableStyle == TableStyle.firstStyle ? BorderRadius.all(Radius.circular(4)) : null,
           ),
           
