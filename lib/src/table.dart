@@ -183,7 +183,7 @@ class _TableNewState extends State<TableNew> {
   }
 
   Widget _itemRowsData(TableNewBodies body, bool isLast) {
-    return body.children != null && body.children!.length > 0 ? ExpandableNotifier(
+    return body.children != null && body.children!.isNotEmpty ? ExpandableNotifier(
       child: Expandable(
         // collapsed: ExpandableButton(
         //   child: Table(
