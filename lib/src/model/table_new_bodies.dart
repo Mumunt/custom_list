@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 
 class TableNewBodies {
-  List content;
+  ///Content Must List<Widget> || List<TableNewBody> || Widget
+  dynamic content;
   List<TableNewBodies>? children;
   BoxDecoration? decoration;
 
-  TableNewBodies({required this.content, this.children, this.decoration}) : assert(content is List<Widget> || content is List<TableNewBodies>);
+  TableNewBodies({required this.content, this.children, this.decoration}) : assert(content is List<Widget> || content is List<TableNewBodies> || content is  Widget);
 }
 
 // class TableNewBodies {

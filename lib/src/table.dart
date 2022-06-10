@@ -213,7 +213,9 @@ class _TableNewState extends State<TableNew> {
         //     ],
         //   ),
         // ),
-        collapsed: Table(
+        collapsed: body.content is Widget ? Container(
+          child:  body.content ,
+        ) : Table(
           columnWidths: widget.columsWidth,
           border: widget.border != null
               ? TableBorder(
@@ -249,7 +251,9 @@ class _TableNewState extends State<TableNew> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Table(
+              body.content is Widget ? Container(
+                child:  body.content ,
+              ) : Table(
                 columnWidths: widget.columsWidth,
                 border: TableBorder(
                     verticalInside: BorderSide(
@@ -279,7 +283,9 @@ class _TableNewState extends State<TableNew> {
           ),
         ),
       ),
-    ) : Table(
+    ) : body.content is Widget ? Container(
+      child:  body.content ,
+    ) :  Table(
       columnWidths: widget.columsWidth,
       border: widget.border != null
           ? TableBorder(
