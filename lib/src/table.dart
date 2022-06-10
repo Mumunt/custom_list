@@ -204,12 +204,12 @@ class _TableNewState extends State<TableNew> {
                 children: body.contents!
                     .map((value) => Container(
                   alignment: Alignment.center,
-                  child: value,
+                  child: value.call(false),
                 ))
                     .toList()),
           ],
         ) : Container(
-          child: body.body,
+          child: body.body!.call(false),
         ) ,
         expanded: Container(
           decoration: body.decoration,
@@ -229,12 +229,12 @@ class _TableNewState extends State<TableNew> {
                       children: body.contents!
                           .map((value) => Container(
                         alignment: Alignment.center,
-                        child: value,
+                        child: value.call(true),
                       ))
                           .toList()),
                 ],
               ) : Container(
-                 child: body.body,
+                 child: body.body!.call(true),
                ),
               if(body.children != null)
               for(var i = 0; i < body.children!.length; i++)
@@ -260,12 +260,12 @@ class _TableNewState extends State<TableNew> {
             children: body.contents!
                 .map((value) => Container(
               alignment: Alignment.center,
-              child: value,
+              child: value.call(false),
             ))
                 .toList())
       ],
     ) : Container(
-      child: body.body,
+      child: body.body!.call(false),
     ) ;
   }
 

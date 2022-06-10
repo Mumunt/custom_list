@@ -142,36 +142,41 @@ class _MyAppState extends State<MyApp> {
 
                   // content: List<Widget>.generate(5, (index) => Text("Body $index")),
                   // body: Container(child: Text("test"),),
-                  contents: <Widget>[
+                  contents: <WidgetTable>[
                     dummyData[index].child != null
-                        ? ExpandableButton(
+                        ?(isExpended) =>  ExpandableButton(
                             child: Padding(
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 8.0, vertical: 16),
-                              child: Text(dummyData[index].name),
+                              child: Row(
+                                children: [
+                                  Icon(isExpended ? Icons.keyboard_arrow_up_outlined : Icons.keyboard_arrow_down_outlined),
+                                  Text(dummyData[index].name),
+                                ],
+                              ),
                             ),
                           )
-                        : Padding(
+                        : (_) => Padding(
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 8.0, vertical: 16),
                             child: Text(dummyData[index].name),
                           ),
-                    Padding(
+                        (isExpended) => Padding(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 8.0, vertical: 16),
                       child: Text(dummyData[index].email),
                     ),
-                    Padding(
+                        (isExpended) => Padding(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 8.0, vertical: 16),
                       child: Text(dummyData[index].phone),
                     ),
-                    Padding(
+                        (isExpended) => Padding(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 8.0, vertical: 16),
                       child: Text(dummyData[index].region),
                     ),
-                    Padding(
+                        (isExpended) => Padding(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 8.0, vertical: 16),
                       child: Text(dummyData[index].country),
@@ -199,32 +204,32 @@ class _MyAppState extends State<MyApp> {
             color: Colors.lightBlueAccent,
             borderRadius:  data.length-1 == i ? BorderRadius.only(bottomRight: Radius.circular(4)) : null
           ),
-          contents: <Widget>[
+          contents: <WidgetTable>[
             data[i].child != null
-                ? ExpandableButton(
+                ? (isExpended) => ExpandableButton(
                     child: Padding(
                     padding: const EdgeInsets.symmetric(
                         horizontal: 8.0, vertical: 16),
                     child: Text(data[i].name),
                   ))
-                : Padding(
+                : (isExpended) => Padding(
                     padding: const EdgeInsets.symmetric(
                         vertical: 16, horizontal: 14),
                     child: Text(data[i].name),
                   ),
-            Padding(
+                (isExpended) => Padding(
               padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 14),
               child: Text(data[i].email),
             ),
-            Padding(
+                (isExpended) => Padding(
               padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 14),
               child: Text(data[i].phone),
             ),
-            Padding(
+                (isExpended) => Padding(
               padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 14),
               child: Text(data[i].region),
             ),
-            Padding(
+                (isExpended) =>  Padding(
               padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 14),
               child: Text(data[i].country),
             )

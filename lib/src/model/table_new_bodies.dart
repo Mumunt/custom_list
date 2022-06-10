@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
+typedef WidgetTable = Widget Function(bool isExpanded);
 class TableNewBodies {
   ///Content Must List<Widget> || Widget
-  List<Widget>? contents;
-  Widget? body;
+  List<WidgetTable>? contents;
+  WidgetTable? body;
   List<TableNewBodies>? children;
   BoxDecoration? decoration;
 
