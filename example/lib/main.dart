@@ -141,7 +141,8 @@ class _MyAppState extends State<MyApp> {
                     borderRadius: BorderRadius.circular(4)),
 
                   // content: List<Widget>.generate(5, (index) => Text("Body $index")),
-                  content: <Widget>[
+                  // body: Container(child: Text("test"),),
+                  contents: <Widget>[
                     dummyData[index].child != null
                         ? ExpandableButton(
                             child: Padding(
@@ -198,7 +199,7 @@ class _MyAppState extends State<MyApp> {
             color: Colors.lightBlueAccent,
             borderRadius:  data.length-1 == i ? BorderRadius.only(bottomRight: Radius.circular(4)) : null
           ),
-          content: <Widget>[
+          contents: <Widget>[
             data[i].child != null
                 ? ExpandableButton(
                     child: Padding(

@@ -185,37 +185,7 @@ class _TableNewState extends State<TableNew> {
   Widget _itemRowsData(TableNewBodies body, bool isLast) {
     return body.children != null && body.children!.isNotEmpty ? ExpandableNotifier(
       child: Expandable(
-        // collapsed: ExpandableButton(
-        //   child: Table(
-        //     columnWidths: widget.columsWidth,
-        //     border: widget.border != null
-        //         ? TableBorder(
-        //       verticalInside: BorderSide(
-        //         width: widget.border!.verticalInside,
-        //         color: widget.tableStyle == TableStyle.firstStyle ? Colors.white : widget.border!.color,
-        //       ),
-        //       bottom: body.children != null &&  !isLast ? BorderSide.none : BorderSide(
-        //         color: widget.tableStyle == TableStyle.firstStyle ? Colors.white : widget.border!.color,
-        //         width: 2
-        //       )
-        //
-        //     )
-        //         : null,
-        //     children: [
-        //       // Row List Item Content
-        //       TableRow(
-        //           children: body.content.call(ExpandableButton())
-        //               .map((value) => Container(
-        //             alignment: Alignment.center,
-        //             child: value,
-        //           ))
-        //               .toList()),
-        //     ],
-        //   ),
-        // ),
-        collapsed: body.content is Widget ? Container(
-          child:  body.content ,
-        ) : Table(
+        collapsed: body.contents != null ? Table(
           columnWidths: widget.columsWidth,
           border: widget.border != null
               ? TableBorder(
@@ -223,59 +193,47 @@ class _TableNewState extends State<TableNew> {
               width: widget.border!.verticalInside,
               color: widget.border!.color,
             ),
-            // bottom: BorderSide(
-            //   width: 2,
-            //   color: widget.border!.color,
-            // ),
-            // bottom: body.children != null  ? BorderSide() : BorderSide(
-            //   color:  widget.border!.color,
-            //   width: 2
-            // )
-
           )
               : null,
           children: [
             // Row List Item Content
             TableRow(
                 decoration: body.decoration,
-                children: body.content
+                children: body.contents!
                     .map((value) => Container(
                   alignment: Alignment.center,
                   child: value,
                 ))
                     .toList()),
           ],
-        ),
+        ) : Container(
+          child: body.body,
+        ) ,
         expanded: Container(
           decoration: body.decoration,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              body.content is Widget ? Container(
-                child:  body.content ,
-              ) : Table(
+               body.contents != null ? Table(
                 columnWidths: widget.columsWidth,
                 border: TableBorder(
                     verticalInside: BorderSide(
                       color: widget.border!.color,
                       width: widget.border!.verticalInside,
                     ),
-                  //   // bottom: BorderSide(),
-                  // bottom: BorderSide(
-                  //   width: 2,
-                  //   color: widget.border!.color,
-                  // ),
                 ),
                 children: [
                   TableRow(
-                      children: body.content
+                      children: body.contents!
                           .map((value) => Container(
                         alignment: Alignment.center,
                         child: value,
                       ))
                           .toList()),
                 ],
-              ),
+              ) : Container(
+                 child: body.body,
+               ),
               if(body.children != null)
               for(var i = 0; i < body.children!.length; i++)
                 _itemRowsData(body.children![i], i != body.children!.length-1),
@@ -283,9 +241,7 @@ class _TableNewState extends State<TableNew> {
           ),
         ),
       ),
-    ) : body.content is Widget ? Container(
-      child:  body.content ,
-    ) :  Table(
+    ) : body.contents != null ? Table(
       columnWidths: widget.columsWidth,
       border: widget.border != null
           ? TableBorder(
@@ -299,17 +255,16 @@ class _TableNewState extends State<TableNew> {
       children: [
         TableRow(
             decoration: body.decoration,
-            children: body.content
+            children: body.contents!
                 .map((value) => Container(
               alignment: Alignment.center,
               child: value,
             ))
                 .toList())
       ],
-    );
+    ) : Container(
+      child: body.body,
+    ) ;
   }
 
-  // Widget _itemExpandDataRow(TableNewBodies body) {
-  //   return ;
-  // }
 }
