@@ -22,6 +22,7 @@ class TableNew extends StatefulWidget {
     this.columsWidth,
     this.border,
     this.tableStyle = TableStyle.defaultStyle,
+    this.isRowFirstStyleVerticalInside = true,
   }) : super(key: key);
 
   final List<TableNewHeader> headers;
@@ -31,6 +32,7 @@ class TableNew extends StatefulWidget {
 
   ///Add aditional table style
   final TableStyle tableStyle;
+  final bool isRowFirstStyleVerticalInside;
 
   @override
   State<TableNew> createState() => _TableNewState();
@@ -96,10 +98,10 @@ class _TableNewState extends State<TableNew> {
             columnWidths: widget.columsWidth,
             border: widget.border != null
                 ? TableBorder(
-              verticalInside: BorderSide(
+              verticalInside: widget.isRowFirstStyleVerticalInside ? BorderSide(
                 width: widget.border!.verticalInside,
                 color: widget.tableStyle == TableStyle.firstStyle ?  Color.fromRGBO(50, 70, 181, 1): widget.border!.color,
-              ),
+              ) : BorderSide.none,
               // left: BorderSide(
               //     color: border!.color, width: border.left),
               // top: BorderSide(
@@ -191,7 +193,7 @@ class _TableNewState extends State<TableNew> {
           columnWidths: widget.columsWidth,
           border: widget.border != null
               ? TableBorder(
-            verticalInside: BorderSide(
+            verticalInside: widget.tableStyle == TableStyle.firstStyle ? BorderSide.none : BorderSide(
               width: widget.border!.verticalInside,
               color: widget.border!.color,
             ),
@@ -219,7 +221,7 @@ class _TableNewState extends State<TableNew> {
                body.contents != null ? Table(
                 columnWidths: widget.columsWidth,
                 border: TableBorder(
-                    verticalInside: BorderSide(
+                    verticalInside: widget.tableStyle == TableStyle.firstStyle ? BorderSide.none : BorderSide(
                       color: widget.border!.color,
                       width: widget.border!.verticalInside,
                     ),
@@ -247,7 +249,7 @@ class _TableNewState extends State<TableNew> {
       columnWidths: widget.columsWidth,
       border: widget.border != null
           ? TableBorder(
-        verticalInside: BorderSide(
+        verticalInside: widget.tableStyle == TableStyle.firstStyle ? BorderSide.none : BorderSide(
           width: widget.border!.verticalInside,
           color: widget.border!.color,
         ),
