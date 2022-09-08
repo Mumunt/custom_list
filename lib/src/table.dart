@@ -23,6 +23,7 @@ class TableNew extends StatefulWidget {
     this.border,
     this.tableStyle = TableStyle.defaultStyle,
     this.isRowFirstStyleVerticalInside = true,
+    this.colorFirstStyle = const Color.fromRGBO(55, 82, 226, 1),
   }) : super(key: key);
 
   final List<TableNewHeader> headers;
@@ -33,6 +34,9 @@ class TableNew extends StatefulWidget {
   ///Add aditional table style
   final TableStyle tableStyle;
   final bool isRowFirstStyleVerticalInside;
+
+  //Add Color Header FirstStyle
+  final Color colorFirstStyle;
 
   @override
   State<TableNew> createState() => _TableNewState();
@@ -92,7 +96,7 @@ class _TableNewState extends State<TableNew> {
                         : 0),
               )
                   : null,
-                color: widget.tableStyle == TableStyle.firstStyle ? const Color.fromRGBO(55, 82, 226, 1) : null,
+                color: widget.tableStyle == TableStyle.firstStyle ? widget.colorFirstStyle : null,
                 borderRadius: widget.tableStyle == TableStyle.firstStyle ? BorderRadius.all(Radius.circular(4)) : null,),
           child: Table(
             columnWidths: widget.columsWidth,
@@ -100,7 +104,7 @@ class _TableNewState extends State<TableNew> {
                 ? TableBorder(
               verticalInside: widget.isRowFirstStyleVerticalInside ? BorderSide(
                 width: widget.border!.verticalInside,
-                color: widget.tableStyle == TableStyle.firstStyle ?  Color.fromRGBO(50, 70, 181, 1): widget.border!.color,
+                color: widget.tableStyle == TableStyle.firstStyle ?  widget.colorFirstStyle: widget.border!.color,
               ) : BorderSide.none,
               // left: BorderSide(
               //     color: border!.color, width: border.left),
