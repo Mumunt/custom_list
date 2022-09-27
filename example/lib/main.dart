@@ -6,6 +6,6 @@ import 'package:expandable/expandable.dart';
 import 'package:table_new_example/scroll_table.dart';
 
 void main() {
-  // runApp(const BasicTable());
-  runApp(const ScrollTable());
+  runApp(const BasicTable());
+  // runApp(const ScrollTable());
 }

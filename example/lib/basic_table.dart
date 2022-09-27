@@ -66,123 +66,131 @@ class _BasicTable extends State<BasicTable> {
         appBar: AppBar(
           title: const Text('Plugin example app'),
         ),
-        body: Padding(
-          padding: const EdgeInsets.all(50),
+        body: Scrollbar(
+          controller: controller,
           child: SingleChildScrollView(
-            // controller: controller,
-            child: TableNew(
-              columsWidth: const {
-                0: FlexColumnWidth(1),
-              },
-              tableStyle: TableStyle.firstStyle,
-              // border: TableNewBorder(color: Colors.blue,bottom: 2, top: 2),
-              border: TableNewBorder(
-                // color: Color.fromRGBO(235, 241, 254, 1), verticalInside: 2
-                  color: Colors.black, verticalInside: 2
-              ),
-              headers: [
-                TableNewHeader(
-                  content: const Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: SelectableText(
-                      "Name",
-                      style: TextStyle(color: Colors.white),
+            controller: controller,
+            child: Column(
+              children: [
+                Text("Basic Model"),
+                Padding(
+                  padding: const EdgeInsets.all(50),
+                  child: TableNew(
+                    columsWidth: const {
+                      0: FlexColumnWidth(1),
+                    },
+                    tableStyle: TableStyle.firstStyle,
+                    // border: TableNewBorder(color: Colors.blue,bottom: 2, top: 2),
+                    border: TableNewBorder(
+                      // color: Color.fromRGBO(235, 241, 254, 1), verticalInside: 2
+                        color: Colors.black, verticalInside: 2
                     ),
-                  ),
-                ),
-                TableNewHeader(
-                  content: const Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: SelectableText(
-                      "Email",
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  ),
-                ),
-                TableNewHeader(
-                  content: const Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: SelectableText(
-                      "Phone",
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  ),
-                ),
-                TableNewHeader(
-                  content: const Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: SelectableText(
-                      "Region",
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  ),
-                ),
-                TableNewHeader(
-                  content: const Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: SelectableText(
-                      "Country",
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  ),
-                )
-              ],
-
-              bodies: List.generate(
-                // dummyData.length <= page * 20 ? dummyData.length : page * 20,
-                dummyData.length,
-                    (index) => TableNewBodies(
-                  decoration: BoxDecoration(
-                      color: Colors.grey,
-                      borderRadius: BorderRadius.circular(4)),
-
-                  // content: List<Widget>.generate(5, (index) => Text("Body $index")),
-                  // body: Container(child: Text("test"),),
-                  contents: <WidgetTable>[
-                    dummyData[index].child != null
-                        ?(isExpended) =>  ExpandableButton(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 8.0, vertical: 16),
-                        child: Row(
-                          children: [
-                            Icon(isExpended ? Icons.keyboard_arrow_up_outlined : Icons.keyboard_arrow_down_outlined),
-                            Text(dummyData[index].name),
-                          ],
+                    headers: [
+                      TableNewHeader(
+                        content: const Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: SelectableText(
+                            "Name",
+                            style: TextStyle(color: Colors.white),
+                          ),
                         ),
                       ),
-                    )
-                        : (_) => Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 8.0, vertical: 16),
-                      child: Text(dummyData[index].name),
+                      TableNewHeader(
+                        content: const Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: SelectableText(
+                            "Email",
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ),
+                      ),
+                      TableNewHeader(
+                        content: const Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: SelectableText(
+                            "Phone",
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ),
+                      ),
+                      TableNewHeader(
+                        content: const Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: SelectableText(
+                            "Region",
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ),
+                      ),
+                      TableNewHeader(
+                        content: const Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: SelectableText(
+                            "Country",
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ),
+                      )
+                    ],
+
+                    bodies: List.generate(
+                      // dummyData.length <= page * 20 ? dummyData.length : page * 20,
+                      dummyData.length,
+                          (index) => TableNewBodies(
+                        decoration: BoxDecoration(
+                            color: Colors.grey,
+                            borderRadius: BorderRadius.circular(4)),
+
+                        // content: List<Widget>.generate(5, (index) => Text("Body $index")),
+                        // body: Container(child: Text("test"),),
+                        contents: <WidgetTable>[
+                          dummyData[index].child != null
+                              ?(isExpended) =>  ExpandableButton(
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 8.0, vertical: 16),
+                              child: Row(
+                                children: [
+                                  Icon(isExpended ? Icons.keyboard_arrow_up_outlined : Icons.keyboard_arrow_down_outlined),
+                                  Text(dummyData[index].name),
+                                ],
+                              ),
+                            ),
+                          )
+                              : (_) => Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 8.0, vertical: 16),
+                            child: Text(dummyData[index].name),
+                          ),
+                              (isExpended) => Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 8.0, vertical: 16),
+                            child: Text(dummyData[index].email),
+                          ),
+                              (isExpended) => Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 8.0, vertical: 16),
+                            child: Text(dummyData[index].phone),
+                          ),
+                              (isExpended) => Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 8.0, vertical: 16),
+                            child: Text(dummyData[index].region),
+                          ),
+                              (isExpended) => Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 8.0, vertical: 16),
+                            child: Text(dummyData[index].country),
+                          )
+                        ],
+                        children: dummyData[index].child != null
+                            ? recursive(dummyData[index].child!)
+                            : null,
+                      ),
                     ),
-                        (isExpended) => Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 8.0, vertical: 16),
-                      child: Text(dummyData[index].email),
-                    ),
-                        (isExpended) => Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 8.0, vertical: 16),
-                      child: Text(dummyData[index].phone),
-                    ),
-                        (isExpended) => Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 8.0, vertical: 16),
-                      child: Text(dummyData[index].region),
-                    ),
-                        (isExpended) => Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 8.0, vertical: 16),
-                      child: Text(dummyData[index].country),
-                    )
-                  ],
-                  children: dummyData[index].child != null
-                      ? recursive(dummyData[index].child!)
-                      : null,
+                  ),
                 ),
-              ),
+              ],
             ),
           ),
         ),
