@@ -24,6 +24,11 @@ class TableNew extends StatefulWidget {
     this.tableStyle = TableStyle.defaultStyle,
     this.isRowFirstStyleVerticalInside = true,
     this.colorFirstStyle = const Color.fromRGBO(55, 82, 226, 1),
+    this.scrollControllerFull,
+    this.scrollControllerBody,
+    this.physicsFull = const NeverScrollableScrollPhysics(),
+    this.physicsBody = const NeverScrollableScrollPhysics(),
+    this.boxConstraints = const BoxConstraints(minWidth: 0,maxWidth: double.infinity,minHeight: 0, maxHeight: double.infinity)
   }) : super(key: key);
 
   final List<TableNewHeader> headers;
@@ -38,13 +43,24 @@ class TableNew extends StatefulWidget {
   //Add Color Header FirstStyle
   final Color colorFirstStyle;
 
+  //Box Constraint
+  final BoxConstraints boxConstraints;
+  
+  //Controller scroll
+  final ScrollController? scrollControllerFull;
+  final ScrollController? scrollControllerBody;
+
+  //Controller Pyschic
+  final ScrollPhysics? physicsFull;
+  final ScrollPhysics? physicsBody;
+
   @override
   State<TableNew> createState() => _TableNewState();
 }
 
 class _TableNewState extends State<TableNew> {
   int page = 1;
-  ScrollController controller = ScrollController();
+  // ScrollController controller = ScrollController();
 
   @override
   void initState() {
@@ -74,8 +90,9 @@ class _TableNewState extends State<TableNew> {
     TableNewBorder? border = widget.border;
 
     return ListView(
+      controller: widget.scrollControllerFull,
       shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
+      physics: widget.physicsFull,
       children: [
         Container(
           padding: widget.tableStyle == TableStyle.firstStyle ?  EdgeInsets.symmetric(vertical: 9) : null,
@@ -142,51 +159,57 @@ class _TableNewState extends State<TableNew> {
   }
 
   Widget _initBody() {
-    return ListView.builder(
-      shrinkWrap: true,
-      controller: controller,
-      physics: const NeverScrollableScrollPhysics(),
-      itemBuilder: (context, index) {
-        TableNewBodies body = widget.bodies[index];
-        TableNewBorder? border = widget.border;
+    return ConstrainedBox(
+      constraints: widget.boxConstraints,
+      child: Scrollbar(
+        controller: widget.scrollControllerBody,
+        child: ListView.builder(
+          shrinkWrap: true,
+          controller: widget.scrollControllerBody,
+          physics: widget.physicsBody,
+          itemBuilder: (context, index) {
+            TableNewBodies body = widget.bodies[index];
+            TableNewBorder? border = widget.border;
 
-        //List Row
-        return Container(
-          margin: widget.tableStyle == TableStyle.firstStyle ? EdgeInsets.only(top: 12) : null,
-          // TODO : Table Border Container
-          decoration: BoxDecoration(
-              border: border != null
-                  ? widget.tableStyle == TableStyle.firstStyle ?  Border.all(
-                width: 2,
-                color: border.color
-              ) : Border(
-                left: BorderSide(
-                    color: border.color, width: border.left),
-                top: BorderSide(
-                    color: border.color,
-                    width: border.top > 0 ? border.top / 2 : 0),
-                right: BorderSide(
-                    color: border.color, width: border.right),
-                bottom: BorderSide(
-                    color: border.color,
-                    width: index != widget.bodies.length - 1
-                        ? border.bottom > 0
-                        ? border.bottom / 2
-                        : 0
-                        : border.bottom,),
+            //List Row
+            return Container(
+              margin: widget.tableStyle == TableStyle.firstStyle ? EdgeInsets.only(top: 12) : null,
+              // TODO : Table Border Container
+              decoration: BoxDecoration(
+                  border: border != null
+                      ? widget.tableStyle == TableStyle.firstStyle ?  Border.all(
+                    width: 2,
+                    color: border.color
+                  ) : Border(
+                    left: BorderSide(
+                        color: border.color, width: border.left),
+                    top: BorderSide(
+                        color: border.color,
+                        width: border.top > 0 ? border.top / 2 : 0),
+                    right: BorderSide(
+                        color: border.color, width: border.right),
+                    bottom: BorderSide(
+                        color: border.color,
+                        width: index != widget.bodies.length - 1
+                            ? border.bottom > 0
+                            ? border.bottom / 2
+                            : 0
+                            : border.bottom,),
 
-              )
-                  : null,
-            borderRadius: widget.tableStyle == TableStyle.firstStyle ? BorderRadius.all(Radius.circular(4)) : null,
-          // borderRadius: widget.tableStyle == TableStyle.firstStyle ? BorderRadius.all(Radius.circular(4)) : null,
-          ),
-          
-          //padding For Border Space body
-          // padding: EdgeInsets.symmetric(vertical: 10),
-          child: _itemRowsData(body,index !=  widget.bodies.length-1),
-        );
-      },
-      itemCount: widget.bodies.length,
+                  )
+                      : null,
+                borderRadius: widget.tableStyle == TableStyle.firstStyle ? BorderRadius.all(Radius.circular(4)) : null,
+              // borderRadius: widget.tableStyle == TableStyle.firstStyle ? BorderRadius.all(Radius.circular(4)) : null,
+              ),
+
+              //padding For Border Space body
+              // padding: EdgeInsets.symmetric(vertical: 10),
+              child: _itemRowsData(body,index !=  widget.bodies.length-1),
+            );
+          },
+          itemCount: widget.bodies.length,
+        ),
+      ),
     );
   }
 
